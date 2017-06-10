@@ -1,18 +1,18 @@
- package main
+package main
 
- import (
-    "fmt"
-	"time"
+import (
+	"fmt"
 	"math/rand"
- )
+	"time"
+)
 
-var TestData         = [...]string{"This", "is", "a", "test."}
-var TestData2         = [...]string{"Hope", "this ", "works", "good!"}
+var TestData = [...]string{"This", "is", "a", "test."}
+var TestData2 = [...]string{"Hope", "this ", "works", "good!"}
 
 var commandQueue = make(chan string, 1) //Single Channel for handling this is all we need.
 var QueueSleepInterval = struct{ min, max int }{1, 3}
 
-func test(){
+func test() {
 	var i int = 0
 	for {
 		wsi := QueueSleepInterval
@@ -25,17 +25,17 @@ func test(){
 	}
 }
 
- func main() {	
+func main() {
 	go test()
-	for{
-	for _, data := range TestData {
-		commandQueue <- data
+	for {
+		for _, data := range TestData {
+			commandQueue <- data
+		}
+
+		time.Sleep(5 * time.Second)
+
+		for _, data := range TestData2 {
+			commandQueue <- data
+		}
 	}
-	
-	time.Sleep(5 * time.Second)
-	
-  	for _, data := range TestData2 {
-		commandQueue <- data
-	} 
-	}
- }
+}
